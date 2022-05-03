@@ -187,18 +187,6 @@ $(".card .list-group").sortable({
   scroll: false,
   tolerance: "pointer",
   helper: "clone",
-  activate: function(event) {
-    console.log("activate", this);
-  },
-  deactivate: function(event) {
-    console.log("deactivate", this);
-  },
-  over: function(event) {
-    console.log("over", event.target);
-  },
-  out: function(event) {
-    console.log("out", event.target);
-  },
   update: function(event) {
     var tempArr = [];
     // loop over current set of children in sortable list
@@ -229,8 +217,19 @@ $(".card .list-group").sortable({
     tasks[arrName] = tempArr;
     saveTasks();
 
-    console.log(tempArr);
+    
         
+  }
+});
+
+
+//making the trash bar
+$("#trash").droppable({
+  accept: ".card .list-group-item",
+  tolerance: "touch",
+  drop: function(event, ui) {
+    console.log("drop");
+    ui.draggable.remove();
   }
 });
 
