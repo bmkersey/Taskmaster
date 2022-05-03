@@ -89,25 +89,28 @@ $(".list-group").on("blur", "textarea", function() {
 // due date was clicked
 $(".list-group").on("click", "span", function() {
   // get current text
-  var date = $(this)
-    .text()
-    .trim();
+  var date = $(this).text().trim();
 
   // create new input element
-  var dateInput = $("<input>")
-    .attr("type", "text")
-    .addClass("form-control")
-    .val(date);
+  var dateInput = $("<input>").attr("type", "text").addClass("form-control").val(date);
 
-  // swap out elements
   $(this).replaceWith(dateInput);
 
-  // automatically focus on new element
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function(){
+      //when calendar is closed for a change event on the dateinput
+      $(this).trigger("change");
+    }
+  });
+
+  // automatically bring up the calendar
   dateInput.trigger("focus");
 });
 
 // value of due date was changed
-$(".list-group").on("blur", "input[type='text']", function() {
+$(".list-group").on("change", "input[type='text']", function() {
   // get current text
   var date = $(this)
     .val()
@@ -215,15 +218,12 @@ $(".card .list-group").sortable({
 
     // update array on tasks object and save
     tasks[arrName] = tempArr;
-    saveTasks();
-
-    
+    saveTasks();   
         
   }
 });
 
-
-//making the trash bar
+//making the trash bar trash stuff
 $("#trash").droppable({
   accept: ".card .list-group-item",
   tolerance: "touch",
@@ -232,6 +232,12 @@ $("#trash").droppable({
     ui.draggable.remove();
   }
 });
+
+//adding a date picker from jquery ui
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
+
 
 // load tasks for the first time
 loadTasks();
