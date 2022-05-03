@@ -264,6 +264,13 @@ var auditTask = function(taskEl) {
   
 };
 
+//sets timer to periodically check the dates
+setInterval(function () {
+  $(".card .list-group-item").each(function(index, el) {
+    auditTask(el);
+  });
+}, 5000);
+
 
 // load tasks for the first time
 loadTasks();
